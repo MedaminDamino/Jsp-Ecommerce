@@ -75,4 +75,37 @@ public class UserDAOImpl implements UserDAO {
             return false;
         }
     }
+    @Override
+    public java.util.List<User> findAll() {
+        java.util.List<User> users = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM users ORDER BY id DESC";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

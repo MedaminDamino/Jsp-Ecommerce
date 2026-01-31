@@ -5,4 +5,6 @@ import org.example.model.User;
 public interface UserService {
     User authenticate(String email, String pwd);
     boolean register(User user);
+    java.util.List<User> getAllUsers();
+    void deleteUser(int id);
 }
