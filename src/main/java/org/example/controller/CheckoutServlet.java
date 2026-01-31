@@ -54,7 +54,8 @@ public class CheckoutServlet extends HttpServlet {
             Product product = productService.getProductById(String.valueOf(productId));
 
             if (product != null) {
-                double total = product.getPrice() * quantity;
+                double itemPrice = product.isHasDiscount() ? product.getDiscountedPrice() : product.getPrice();
+                double total = itemPrice * quantity;
                 grandTotal += total;
                 cartItems.add(new CartItem(product, quantity, total));
             }

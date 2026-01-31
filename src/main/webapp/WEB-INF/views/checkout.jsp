@@ -109,7 +109,7 @@
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Subtotal</span>
-                                    <span class="fw-bold">$${grandTotal}</span>
+                                    <span class="fw-bold">$${String.format("%.2f", grandTotal)}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-4 pb-4 border-bottom">
                                     <span class="text-muted">Shipping</span>
@@ -118,7 +118,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <h5 class="fw-black mb-0">Order Total</h5>
-                                    <h3 class="fw-black text-primary mb-0">$${grandTotal}</h3>
+                                    <h3 class="fw-black text-primary mb-0">$${String.format("%.2f", grandTotal)}</h3>
                                 </div>
 
                                 <form action="checkout" method="post">
