@@ -81,14 +81,14 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public java.util.List<Order> findByUserId(int userId) {
         java.util.List<Order> orders = new java.util.ArrayList<>();
-        String sql = "SELECT o.id, o.user_id, o.total_amount, o.status, o.created_at, " +
+        String sql = "SELECT o.id, o.user_id, o.total_amount, o.status, o.order_date, " +
                      "oi.id as item_id, oi.product_id, oi.quantity, oi.price, " +
                      "p.name as product_name, p.image_url " +
                      "FROM orders o " +
                      "LEFT JOIN order_items oi ON o.id = oi.order_id " +
                      "LEFT JOIN products p ON oi.product_id = p.id " +
                      "WHERE o.user_id = ? " +
-                     "ORDER BY o.created_at DESC";
+                     "ORDER BY o.order_date DESC";
         
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -108,7 +108,7 @@ public class OrderDAOImpl implements OrderDAO {
                     order.setUserId(rs.getInt("user_id"));
                     order.setTotalAmount(rs.getDouble("total_amount"));
                     order.setStatus(rs.getString("status"));
-                    order.setCreatedAt(rs.getTimestamp("created_at"));
+                    order.setCreatedAt(rs.getTimestamp("order_date"));
                     order.setItems(new java.util.ArrayList<>());
                     orderMap.put(orderId, order);
                 }
