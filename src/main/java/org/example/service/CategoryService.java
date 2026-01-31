@@ -8,5 +8,5 @@ public interface CategoryService {
     Category getCategoryById(int id);
     void addCategory(String name, String description);
     void updateCategory(Category category);
-    void deleteCategory(int id);
+    boolean deleteCategory(int id); // Returns true if deleted, false if failed (e.g. has products)
 }

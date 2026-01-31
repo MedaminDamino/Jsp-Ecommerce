@@ -40,6 +40,13 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                     </div>
                                 </c:if>
+                                <c:if test="${not empty param.error}">
+                                    <div class="alert alert-danger border-0 shadow-sm alert-dismissible fade show"
+                                        role="alert">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>${param.error}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </c:if>
 
                                 <div class="row g-4">
                                     <!-- Add Category Card -->

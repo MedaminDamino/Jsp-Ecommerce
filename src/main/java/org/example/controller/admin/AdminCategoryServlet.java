@@ -43,8 +43,11 @@ public class AdminCategoryServlet extends HttpServlet {
 
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
-            categoryService.deleteCategory(id);
-            resp.sendRedirect("categories?success=Category Deleted");
+            if (categoryService.deleteCategory(id)) {
+                resp.sendRedirect("categories?success=Category Deleted");
+            } else {
+                resp.sendRedirect("categories?error=Cannot delete category with associated products");
+            }
         }
     }
 }

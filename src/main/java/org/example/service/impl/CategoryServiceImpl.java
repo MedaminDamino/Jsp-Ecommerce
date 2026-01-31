@@ -38,7 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public boolean deleteCategory(int id) {
+        if (categoryDAO.hasProducts(id)) {
+            return false;
+        }
         categoryDAO.delete(id);
+        return true;
     }
 }

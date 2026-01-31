@@ -9,4 +9,5 @@ public interface CategoryDAO {
     void save(Category category);
     void update(Category category);
     void delete(int id);
+    boolean hasProducts(int id);
 }

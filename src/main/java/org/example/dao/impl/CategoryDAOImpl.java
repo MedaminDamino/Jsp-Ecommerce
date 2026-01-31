@@ -80,4 +80,20 @@ public class CategoryDAOImpl implements CategoryDAO {
             // Likely foreign key constraint fail if products exist
         }
     }
+    @Override
+    public boolean hasProducts(int id) {
+        String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
