@@ -178,7 +178,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </otherwise>
+                            </c:otherwise>
                         </c:choose>
                     </div>
 
