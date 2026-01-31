@@ -41,6 +41,8 @@ public class AuthServlet extends HttpServlet {
         String action = req.getParameter("action");
         if ("login".equals(action)) {
             handleLogin(req, resp);
+        } else if ("register".equals(action)) {
+            handleRegister(req, resp);
         } else {
             resp.sendRedirect("login.jsp");
         }
@@ -63,6 +65,20 @@ public class AuthServlet extends HttpServlet {
             }
         } else {
             resp.sendRedirect("login.jsp?error=Invalid Credentials");
+        }
+    }
+
+    private void handleRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        // Confirm password? user didn't ask for it but good practice. For now stick to simple.
+
+        User user = new User(0, email, password, "CUSTOMER"); // ID 0 is ignored on insert
+
+        if (userService.register(user)) {
+             resp.sendRedirect("login.jsp?message=Registration successful! Please login.");
+        } else {
+             resp.sendRedirect("register.jsp?error=Registration failed. Email might be taken.");
         }
     }
 }

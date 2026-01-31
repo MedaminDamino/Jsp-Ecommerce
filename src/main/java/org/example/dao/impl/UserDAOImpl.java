@@ -59,4 +59,20 @@ public class UserDAOImpl implements UserDAO {
         }
         return null;
     }
+    @Override
+    public boolean save(User user) {
+        String sql = "INSERT INTO users (email, password, role) VALUES (?, ?, ?)";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getPassword());
+            stmt.setString(3, user.getRole());
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

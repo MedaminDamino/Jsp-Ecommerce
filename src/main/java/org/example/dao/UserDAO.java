@@ -5,4 +5,5 @@ import org.example.model.User;
 public interface UserDAO {
     User authenticate(String email, String password);
     User findById(int id);
+    boolean save(User user);
 }

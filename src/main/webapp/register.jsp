@@ -4,7 +4,7 @@
         <html lang="en">
 
         <head>
-            <title>Login | JSP Store</title>
+            <title>Sign Up | JSP Store</title>
             <%@ include file="/WEB-INF/fragments/head.jspf" %>
         </head>
 
@@ -18,11 +18,11 @@
                         <div class="p-5">
                             <div class="text-center mb-4">
                                 <div class="bg-primary text-white p-3 rounded-4 d-inline-block mb-3 shadow-sm">
-                                    <i class="bi bi-person-lock fs-2"></i>
+                                    <i class="bi bi-person-plus fs-2"></i>
                                 </div>
-                                <h3 class="fw-black text-dark mb-1">Welcome Back</h3>
-                                <p class="text-muted small text-uppercase fw-bold tracking-widest">Sign in to your
-                                    account</p>
+                                <h3 class="fw-black text-dark mb-1">Create Account</h3>
+                                <p class="text-muted small text-uppercase fw-bold tracking-widest">Join our store today
+                                </p>
                             </div>
 
                             <c:if test="${not empty param.error}">
@@ -34,7 +34,8 @@
                             </c:if>
 
                             <form action="${pageContext.request.contextPath}/auth" method="post">
-                                <input type="hidden" name="action" value="login">
+                                <input type="hidden" name="action" value="register">
+
                                 <div class="mb-4">
                                     <label for="email"
                                         class="form-label x-small fw-bold text-uppercase text-muted">Email
@@ -46,45 +47,34 @@
                                             id="email" name="email" required placeholder="name@example.com">
                                     </div>
                                 </div>
+
                                 <div class="mb-5">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="password"
-                                            class="form-label x-small fw-bold text-uppercase text-muted">Password</label>
-                                        <a href="#"
-                                            class="x-small fw-bold text-primary text-decoration-none">Forgot?</a>
-                                    </div>
+                                    <label for="password"
+                                        class="form-label x-small fw-bold text-uppercase text-muted">Password</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-0"><i
                                                 class="bi bi-key text-muted"></i></span>
                                         <input type="password" class="form-control bg-light border-0 shadow-none py-2"
-                                            id="password" name="password" required placeholder="Enter password">
+                                            id="password" name="password" required placeholder="Create a password">
                                     </div>
                                 </div>
 
                                 <button type="submit"
                                     class="btn btn-premium w-100 py-3 rounded-pill fw-bold mb-4 shadow-lg">
-                                    Sign In Now <i class="bi bi-arrow-right ms-2"></i>
+                                    Create Account <i class="bi bi-arrow-right ms-2"></i>
                                 </button>
 
                                 <div class="text-center">
-                                    <p class="small text-muted mb-0">Don't have an account? <a
-                                            href="${pageContext.request.contextPath}/register.jsp"
-                                            class="fw-bold text-primary text-decoration-none">Sign Up</a></p>
+                                    <p class="small text-muted mb-0">Already have an account? <a
+                                            href="${pageContext.request.contextPath}/login.jsp"
+                                            class="fw-bold text-primary text-decoration-none">Sign In</a></p>
                                 </div>
                             </form>
                         </div>
                         <div class="bg-light p-4 text-center border-top">
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="text-start">
-                                    <p class="x-small text-muted mb-0 fw-bold text-uppercase">Admin</p>
-                                    <code class="small">admin@test.com / admin123</code>
-                                </div>
-                                <div class="vr"></div>
-                                <div class="text-start">
-                                    <p class="x-small text-muted mb-0 fw-bold text-uppercase">User</p>
-                                    <code class="small">user@test.com / user123</code>
-                                </div>
-                            </div>
+                            <p class="x-small text-muted mb-0">By signing up, you agree to our <a href="#"
+                                    class="text-decoration-none text-muted fw-bold">Terms</a> & <a href="#"
+                                    class="text-decoration-none text-muted fw-bold">Privacy Policy</a></p>
                         </div>
                     </div>
                 </div>
