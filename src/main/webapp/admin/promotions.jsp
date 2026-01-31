@@ -164,7 +164,23 @@
                                                                         class="x-small fw-bold text-uppercase">OFF</small>
                                                                 </div>
                                                             </div>
-                                                            <p class="text-muted small mb-4">${promo.description}</p>
+                                                            <p class="text-muted small mb-3">${promo.description}</p>
+                                                            <div class="mb-4">
+                                                                <label
+                                                                    class="x-small fw-bold text-uppercase text-muted d-block mb-2">Target
+                                                                    Products</label>
+                                                                <div class="d-flex flex-wrap gap-1">
+                                                                    <c:forEach var="prodName"
+                                                                        items="${promo.productNames}">
+                                                                        <span
+                                                                            class="badge bg-light text-primary border border-primary-subtle px-2 py-1 x-small">${prodName}</span>
+                                                                    </c:forEach>
+                                                                    <c:if test="${empty promo.productNames}">
+                                                                        <span class="text-muted x-small italic">No
+                                                                            products selected</span>
+                                                                    </c:if>
+                                                                </div>
+                                                            </div>
                                                             <div
                                                                 class="d-flex justify-content-between align-items-center mt-auto">
                                                                 <div class="d-flex align-items-center text-muted">

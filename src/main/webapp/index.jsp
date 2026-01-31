@@ -11,7 +11,7 @@
 
       <body>
 
-        <%@ include file="/WEB-INF/fragments/client-navbar.jspf" %>
+        <%@ include file="/WEB-INF/fragments/navbar.jspf" %>
 
 
 
@@ -180,19 +180,7 @@
             </div>
           </div>
 
-          <footer class="mt-5 py-5 border-top bg-white">
-            <div class="container text-center">
-              <div class="d-flex justify-content-center gap-4 mb-4 fs-4 text-primary">
-                <div class="d-flex justify-content-center gap-4 mb-4 fs-4 text-primary">
-                  <a href="#" class="text-primary text-decoration-none"><i class="bi bi-facebook"></i></a>
-                  <a href="#" class="text-primary text-decoration-none"><i class="bi bi-twitter-x"></i></a>
-                  <a href="#" class="text-primary text-decoration-none"><i class="bi bi-instagram"></i></a>
-                </div>
-                <p class="text-muted small">© 2026 JSP Premium Store. All rights reserved.</p>
-              </div>
-          </footer>
-
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+          <%@ include file="/WEB-INF/fragments/footer.jspf" %>
       </body>
 
       </html>

@@ -23,6 +23,7 @@ public class PromotionDAOImpl implements PromotionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        enrichWithProductNames(promotions);
         return promotions;
     }
 
@@ -39,12 +40,38 @@ public class PromotionDAOImpl implements PromotionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        enrichWithProductNames(promotions);
         return promotions;
+    }
+
+    private void enrichWithProductNames(List<Promotion> promotions) {
+        if (promotions == null || promotions.isEmpty()) return;
+        
+        String sql = "SELECT pp.promotion_id, p.name FROM product_promotions pp " +
+                     "JOIN products p ON pp.product_id = p.id " +
+                     "WHERE pp.promotion_id = ?";
+        
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            for (Promotion promo : promotions) {
+                stmt.setInt(1, promo.getId());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    List<String> names = new ArrayList<>();
+                    while (rs.next()) {
+                        names.add(rs.getString("name"));
+                    }
+                    promo.setProductNames(names);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int save(Promotion promotion) {
-        String sql = "INSERT INTO promotions (title, description, active, discount_type, discount_value, end_date) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO promotions (title, description, active, discount_type, discount_value, end_date, product_ids) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, promotion.getTitle());
@@ -52,7 +79,12 @@ public class PromotionDAOImpl implements PromotionDAO {
             stmt.setBoolean(3, promotion.isActive());
             stmt.setString(4, promotion.getDiscountType().name());
             stmt.setDouble(5, promotion.getDiscountValue());
-            stmt.setDate(6, Date.valueOf(promotion.getEndDate()));
+            if (promotion.getEndDate() != null) {
+                stmt.setDate(6, Date.valueOf(promotion.getEndDate()));
+            } else {
+                stmt.setNull(6, Types.DATE);
+            }
+            stmt.setString(7, promotion.getProductIds());
             stmt.executeUpdate();
             
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -79,6 +111,22 @@ public class PromotionDAOImpl implements PromotionDAO {
                 stmt.addBatch();
             }
             stmt.executeBatch();
+            
+            // Also update the summary column in promotions table
+            updateProductIdsSummary(promotionId, String.join(",", productIds));
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateProductIdsSummary(int promotionId, String productIdsStr) {
+        String sql = "UPDATE promotions SET product_ids = ? WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, productIdsStr);
+            stmt.setInt(2, promotionId);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,6 +139,9 @@ public class PromotionDAOImpl implements PromotionDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, promotionId);
             stmt.executeUpdate();
+            
+            // Clear summary
+            updateProductIdsSummary(promotionId, null);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,7 +167,7 @@ public class PromotionDAOImpl implements PromotionDAO {
 
     @Override
     public void update(Promotion promotion) {
-        String sql = "UPDATE promotions SET title = ?, description = ?, active = ?, discount_type = ?, discount_value = ?, end_date = ? WHERE id = ?";
+        String sql = "UPDATE promotions SET title = ?, description = ?, active = ?, discount_type = ?, discount_value = ?, end_date = ?, product_ids = ? WHERE id = ?";
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, promotion.getTitle());
@@ -124,8 +175,13 @@ public class PromotionDAOImpl implements PromotionDAO {
             stmt.setBoolean(3, promotion.isActive());
             stmt.setString(4, promotion.getDiscountType().name());
             stmt.setDouble(5, promotion.getDiscountValue());
-            stmt.setDate(6, Date.valueOf(promotion.getEndDate()));
-            stmt.setInt(7, promotion.getId());
+            if (promotion.getEndDate() != null) {
+                stmt.setDate(6, Date.valueOf(promotion.getEndDate()));
+            } else {
+                stmt.setNull(6, Types.DATE);
+            }
+            stmt.setString(7, promotion.getProductIds());
+            stmt.setInt(8, promotion.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -146,14 +202,17 @@ public class PromotionDAOImpl implements PromotionDAO {
     }
 
     private Promotion mapRow(ResultSet rs) throws SQLException {
-        return new Promotion(
+        Date sqlDate = rs.getDate("end_date");
+        Promotion p = new Promotion(
                 rs.getInt("id"),
                 rs.getString("title"),
                 rs.getString("description"),
                 rs.getBoolean("active"),
                 Promotion.DiscountType.valueOf(rs.getString("discount_type")),
                 rs.getDouble("discount_value"),
-                rs.getDate("end_date").toLocalDate()
+                sqlDate != null ? sqlDate.toLocalDate() : null
         );
+        p.setProductIds(rs.getString("product_ids"));
+        return p;
     }
 }

@@ -14,6 +14,8 @@ public class Promotion {
     private DiscountType discountType;
     private double discountValue;
     private LocalDate endDate;
+    private String productIds; // Comma-separated IDs for DB display
+    private java.util.List<String> productNames = new java.util.ArrayList<>();
 
     public Promotion(int id, String title, String description, boolean active, DiscountType discountType, double discountValue, LocalDate endDate) {
         this.id = id;
@@ -24,6 +26,12 @@ public class Promotion {
         this.discountValue = discountValue;
         this.endDate = endDate;
     }
+
+    public String getProductIds() { return productIds; }
+    public void setProductIds(String productIds) { this.productIds = productIds; }
+
+    public java.util.List<String> getProductNames() { return productNames; }
+    public void setProductNames(java.util.List<String> productNames) { this.productNames = productNames; }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

@@ -15,11 +15,42 @@ import java.util.Map;
 @WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
 public class CartServlet extends HttpServlet {
 
+    private org.example.service.ProductService productService;
+
+    @Override
+    public void init() throws jakarta.servlet.ServletException {
+        productService = new org.example.service.impl.ProductServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Just display the cart page
-        // We might want to enrich the cart with Product objects here if we are only storing IDs
+        HttpSession session = req.getSession();
+        Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
+        
+        java.util.List<CartItem> cartItems = new java.util.ArrayList<>();
+        double total = 0;
+
+        if (cart != null) {
+            for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                Product product = productService.getProductById(String.valueOf(entry.getKey()));
+                if (product != null) {
+                    cartItems.add(new CartItem(product, entry.getValue()));
+                    total += (product.isHasDiscount() ? product.getDiscountedPrice() : product.getPrice()) * entry.getValue();
+                }
+            }
+        }
+
+        req.setAttribute("cartItems", cartItems);
+        req.setAttribute("cartTotal", total);
         req.getRequestDispatcher("cart.jsp").forward(req, resp);
+    }
+
+    public static class CartItem {
+        private Product product;
+        private int quantity;
+        public CartItem(Product product, int quantity) { this.product = product; this.quantity = quantity; }
+        public Product getProduct() { return product; }
+        public int getQuantity() { return quantity; }
     }
 
     @Override

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <nav class="navbar navbar-expand-lg shop-navbar sticky-top">
     <div class="container py-1">
         <a class="navbar-brand d-flex align-items-center" href="${pageContext.request.contextPath}/home">
@@ -30,6 +32,11 @@
                     <div class="bg-light p-2 rounded-circle hover-shadow" style="width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;">
                         <i class="bi bi-cart3 fs-5 text-dark"></i>
                     </div>
+                    <c:if test="${not empty sessionScope.cart and fn:length(sessionScope.cart) > 0}">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary border border-white" style="font-size: 0.65rem;">
+                            ${fn:length(sessionScope.cart)}
+                        </span>
+                    </c:if>
                 </a>
 
                 <c:choose>

@@ -10,7 +10,7 @@
 
         <body>
 
-            <%@ include file="/WEB-INF/fragments/client-navbar.jspf" %>
+            <%@ include file="/WEB-INF/fragments/navbar.jspf" %>
 
                 <div class="container main-content mt-5">
 
@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-                <%@ include file="/WEB-INF/fragments/client-footer.jspf" %>
+                <%@ include file="/WEB-INF/fragments/footer.jspf" %>
 
         </body>
 
