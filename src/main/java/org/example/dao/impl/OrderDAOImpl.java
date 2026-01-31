@@ -77,4 +77,62 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return generatedId;
     }
+
+    @Override
+    public java.util.List<Order> findByUserId(int userId) {
+        java.util.List<Order> orders = new java.util.ArrayList<>();
+        String sql = "SELECT o.id, o.user_id, o.total_amount, o.status, o.created_at, " +
+                     "oi.id as item_id, oi.product_id, oi.quantity, oi.price, " +
+                     "p.name as product_name, p.image_url " +
+                     "FROM orders o " +
+                     "LEFT JOIN order_items oi ON o.id = oi.order_id " +
+                     "LEFT JOIN products p ON oi.product_id = p.id " +
+                     "WHERE o.user_id = ? " +
+                     "ORDER BY o.created_at DESC";
+        
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            
+            java.util.Map<Integer, Order> orderMap = new java.util.LinkedHashMap<>();
+            
+            while (rs.next()) {
+                int orderId = rs.getInt("id");
+                Order order = orderMap.get(orderId);
+                
+                if (order == null) {
+                    order = new Order();
+                    order.setId(orderId);
+                    order.setUserId(rs.getInt("user_id"));
+                    order.setTotalAmount(rs.getDouble("total_amount"));
+                    order.setStatus(rs.getString("status"));
+                    order.setCreatedAt(rs.getTimestamp("created_at"));
+                    order.setItems(new java.util.ArrayList<>());
+                    orderMap.put(orderId, order);
+                }
+                
+                // Add order item if exists
+                if (rs.getInt("item_id") > 0) {
+                    OrderItem item = new OrderItem();
+                    item.setId(rs.getInt("item_id"));
+                    item.setOrderId(orderId);
+                    item.setProductId(rs.getInt("product_id"));
+                    item.setQuantity(rs.getInt("quantity"));
+                    item.setPrice(rs.getDouble("price"));
+                    item.setProductName(rs.getString("product_name"));
+                    item.setProductImageUrl(rs.getString("image_url"));
+                    order.getItems().add(item);
+                }
+            }
+            
+            orders.addAll(orderMap.values());
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return orders;
+    }
 }
