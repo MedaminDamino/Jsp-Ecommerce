@@ -8,9 +8,9 @@
         <p class="px-4 text-uppercase fw-bold x-small text-muted mb-2" style="font-size: 0.65rem;">Navigation</p>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link ${param.page == 'dashboard' ? 'active' : ''}">
-                    <i class="bi bi-grid-1x2"></i>
-                    <span>Dashboard</span>
+                <a href="${pageContext.request.contextPath}/admin/products" class="nav-link ${param.page == 'products' ? 'active' : ''}">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Products</span>
                 </a>
             </li>
             <li class="nav-item">
