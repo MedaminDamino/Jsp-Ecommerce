@@ -7,17 +7,17 @@ public class Order {
     private int id;
     private int userId;
     private double totalAmount;
-    private Timestamp orderDate;
+    private Timestamp createdAt;
     private String status;
     private List<OrderItem> items; // Optional, for full object graph
 
     public Order() {}
 
-    public Order(int id, int userId, double totalAmount, Timestamp orderDate, String status) {
+    public Order(int id, int userId, double totalAmount, Timestamp createdAt, String status) {
         this.id = id;
         this.userId = userId;
         this.totalAmount = totalAmount;
-        this.orderDate = orderDate;
+        this.createdAt = createdAt;
         this.status = status;
     }
 
@@ -30,8 +30,8 @@ public class Order {
     public double getTotalAmount() { return totalAmount; }
     public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
 
-    public Timestamp getOrderDate() { return orderDate; }
-    public void setOrderDate(Timestamp orderDate) { this.orderDate = orderDate; }
+    public Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
