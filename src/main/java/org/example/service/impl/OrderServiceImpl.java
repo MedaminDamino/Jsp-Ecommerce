@@ -62,4 +62,54 @@ public class OrderServiceImpl implements OrderService {
     public java.util.List<Order> getUserOrders(int userId) {
         return orderDAO.findByUserId(userId);
     }
+
+    @Override
+    public java.util.List<Order> getAllOrders() {
+        return orderDAO.findAll();
+    }
+
+    @Override
+    public Order getOrderById(int id) {
+        return orderDAO.findById(id);
+    }
+
+    @Override
+    public void updateOrderStatus(int id, String status) {
+        orderDAO.updateStatus(id, status);
+    }
+
+    @Override
+    public void addProductToOrder(int orderId, int productId, int quantity) {
+        if (quantity <= 0) return;
+        
+        Product product = productDAO.findById(productId);
+        if (product != null) {
+            OrderItem item = new OrderItem();
+            item.setOrderId(orderId);
+            item.setProductId(productId);
+            item.setQuantity(quantity);
+            // Use current product price
+            // The user said "cannot change their price" regarding the order total being editable,
+            // but when adding a new item, we must use its current price.
+            item.setPrice(product.getPrice()); 
+            
+            orderDAO.addOrderItem(item);
+            recalculateOrderTotal(orderId);
+        }
+    }
+
+    @Override
+    public void removeProductFromOrder(int orderId, int orderItemId) {
+        orderDAO.deleteOrderItem(orderItemId);
+        recalculateOrderTotal(orderId);
+    }
+
+    private void recalculateOrderTotal(int orderId) {
+        List<OrderItem> items = orderDAO.findItemsByOrderId(orderId);
+        double total = 0.0;
+        for (OrderItem item : items) {
+            total += (item.getPrice() * item.getQuantity());
+        }
+        orderDAO.updateTotalAmount(orderId, total);
+    }
 }

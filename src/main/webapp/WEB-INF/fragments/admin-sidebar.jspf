@@ -20,6 +20,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/admin/orders" class="nav-link ${param.page == 'orders' ? 'active' : ''}">
+                    <i class="bi bi-receipt"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="${pageContext.request.contextPath}/admin/promotions" class="nav-link ${param.page == 'promotions' ? 'active' : ''}">
                     <i class="bi bi-percent"></i>
                     <span>Promotions</span>
