@@ -113,7 +113,7 @@
                                 <div class="admin-card sticky-top" style="top: 100px;">
                                     <h5 class="fw-black mb-4">Order Summary</h5>
 
-                                    <div class="d-flex justify-content-between mb-2">
+                                    <div class="d-flex justify-content-between mb-3">
                                         <span class="text-muted">Subtotal</span>
                                         <span class="fw-bold">$
                                             <fmt:formatNumber value="${grandTotal}" minFractionDigits="2"
@@ -125,7 +125,7 @@
                                         <span class="text-success fw-bold">FREE</span>
                                     </div>
 
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-4 pt-3">
                                         <h5 class="fw-black mb-0">Total</h5>
                                         <h3 class="fw-black text-primary mb-0">$
                                             <fmt:formatNumber value="${grandTotal}" minFractionDigits="2"
