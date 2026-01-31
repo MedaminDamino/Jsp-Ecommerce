@@ -22,6 +22,15 @@ public class AdminUserServlet extends HttpServlet {
         userService = new UserServiceImpl();
     }
 
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if ("update-role".equals(action)) {
+            updateUserRole(req, resp);
+        } else {
+            doGet(req, resp);
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -50,6 +59,21 @@ public class AdminUserServlet extends HttpServlet {
         }
 
         userService.deleteUser(id);
+        resp.sendRedirect(req.getContextPath() + "/admin/users");
+    }
+
+    private void updateUserRole(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String role = req.getParameter("role");
+
+        // Prevent changing own role (simple check against session user)
+        User currentUser = (User) req.getSession().getAttribute("user");
+        if (currentUser != null && currentUser.getId() == id) {
+             resp.sendRedirect(req.getContextPath() + "/admin/users?error=Cannot change your own role");
+             return;
+        }
+
+        userService.updateUserRole(id, role);
         resp.sendRedirect(req.getContextPath() + "/admin/users");
     }
 }

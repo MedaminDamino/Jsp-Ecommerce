@@ -8,4 +8,5 @@ public interface UserDAO {
     boolean save(User user);
     java.util.List<User> findAll();
     void delete(int id);
+    void updateRole(int id, String role);
 }

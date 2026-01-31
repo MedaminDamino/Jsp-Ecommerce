@@ -7,4 +7,5 @@ public interface UserService {
     boolean register(User user);
     java.util.List<User> getAllUsers();
     void deleteUser(int id);
+    void updateUserRole(int id, String role);
 }

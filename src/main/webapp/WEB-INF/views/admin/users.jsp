@@ -81,10 +81,27 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <span
-                                                                    class="badge ${user.role == 'ADMIN' ? 'bg-primary' : 'bg-secondary'} px-3 py-2">
-                                                                    ${user.role}
-                                                                </span>
+                                                                <form
+                                                                    action="${pageContext.request.contextPath}/admin/users"
+                                                                    method="post"
+                                                                    class="d-flex align-items-center gap-2">
+                                                                    <input type="hidden" name="action"
+                                                                        value="update-role">
+                                                                    <input type="hidden" name="id" value="${user.id}">
+                                                                    <select name="role"
+                                                                        class="form-select form-select-sm py-1 border-0 bg-light fw-bold text-secondary shadow-none"
+                                                                        style="width: 130px; font-size: 0.8rem;">
+                                                                        <option value="CUSTOMER" ${user.role=='CUSTOMER'
+                                                                            ? 'selected' : '' }>CUSTOMER</option>
+                                                                        <option value="ADMIN" ${user.role=='ADMIN'
+                                                                            ? 'selected' : '' }>ADMIN</option>
+                                                                    </select>
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-light border p-1 px-2 text-primary"
+                                                                        data-bs-toggle="tooltip" title="Update Role">
+                                                                        <i class="bi bi-check-lg"></i>
+                                                                    </button>
+                                                                </form>
                                                             </td>
                                                             <td class="text-end pe-4">
                                                                 <a href="${pageContext.request.contextPath}/admin/users?action=delete&id=${user.id}"

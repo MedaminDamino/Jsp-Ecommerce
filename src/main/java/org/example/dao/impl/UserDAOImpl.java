@@ -108,4 +108,17 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void updateRole(int id, String role) {
+        String sql = "UPDATE users SET role = ? WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, role);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
