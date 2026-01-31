@@ -155,7 +155,7 @@
 
                                         <!-- Summary Card -->
                                         <div class="col-lg-4">
-                                            <div class="admin-card sticky-top" style="top: 100px;">
+                                            <div class="admin-card sticky-top p-4" style="top: 100px;">
                                                 <h5 class="fw-black mb-4">Order Summary</h5>
 
                                                 <div class="d-flex justify-content-between mb-3">
