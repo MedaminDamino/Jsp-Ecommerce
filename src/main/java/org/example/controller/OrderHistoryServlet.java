@@ -30,7 +30,7 @@ public class OrderHistoryServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            resp.sendRedirect("login.jsp?error=Please login to view orders");
+            resp.sendRedirect("auth?error=Please login to view orders");
             return;
         }
 

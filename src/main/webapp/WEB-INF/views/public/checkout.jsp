@@ -74,11 +74,16 @@
                                                             </div>
                                                         </td>
                                                         <td class="py-3 small">
-                                                            $${item.product.hasDiscount ? item.product.discountedPrice :
-                                                            item.product.price}
+                                                            <fmt:formatNumber
+                                                                value="${item.product.hasDiscount ? item.product.discountedPrice : item.product.price}"
+                                                                type="currency" currencySymbol="$" maxFractionDigits="2"
+                                                                minFractionDigits="2" />
                                                         </td>
                                                         <td class="py-3 text-center small fw-bold">${item.quantity}</td>
-                                                        <td class="py-3 text-end pe-4 fw-bold text-dark">$${item.total}
+                                                        <td class="py-3 text-end pe-4 fw-bold text-dark">
+                                                            <fmt:formatNumber value="${item.total}" type="currency"
+                                                                currencySymbol="$" maxFractionDigits="2"
+                                                                minFractionDigits="2" />
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

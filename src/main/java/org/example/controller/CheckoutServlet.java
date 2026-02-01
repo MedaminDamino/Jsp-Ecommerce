@@ -35,7 +35,7 @@ public class CheckoutServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            resp.sendRedirect("login.jsp?error=Please login to checkout");
+            resp.sendRedirect("auth?error=Please login to checkout");
             return;
         }
 
@@ -77,7 +77,7 @@ public class CheckoutServlet extends HttpServlet {
                 int orderId = orderService.createOrder(user, cart);
                 session.removeAttribute("cart");
                 req.setAttribute("orderId", orderId);
-                req.getRequestDispatcher("/WEB-INF/views/order-confirmation.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/public/order-confirmation.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 resp.sendRedirect("checkout?error=Order Failed");

@@ -39,7 +39,8 @@
                                 class="btn btn-premium rounded-pill px-5 py-3 fw-bold">
                                 <i class="bi bi-bag-plus me-2"></i> Continue Shopping
                             </a>
-                            <a href="#" class="btn btn-light rounded-pill px-5 py-3 fw-bold text-dark">
+                            <a href="${pageContext.request.contextPath}/orders"
+                                class="btn btn-light rounded-pill px-5 py-3 fw-bold text-dark">
                                 <i class="bi bi-receipt me-2"></i> View Order Details
                             </a>
                         </div>

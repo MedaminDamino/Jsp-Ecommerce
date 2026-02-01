@@ -65,7 +65,7 @@
                                     <!-- Order Info Card -->
                                     <div class="row g-4 mb-4">
                                         <div class="col-md-8">
-                                            <div class="admin-card h-100">
+                                            <div class="admin-card h-100 p-4">
                                                 <h5 class="fw-bold mb-4 border-bottom pb-3">Items Ordered</h5>
                                                 <div class="table-responsive">
                                                     <table class="table align-middle mb-0">
@@ -187,7 +187,7 @@
 
                                         <!-- Summary Sidebar -->
                                         <div class="col-md-4">
-                                            <div class="admin-card mb-4">
+                                            <div class="admin-card mb-4 p-4">
                                                 <h5 class="fw-bold mb-4 border-bottom pb-3">Order Info</h5>
 
                                                 <div class="mb-3">
@@ -217,12 +217,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="admin-card bg-primary text-white">
+                                            <div class="admin-card bg-primary text-white p-4 shadow-sm">
                                                 <h5 class="fw-bold mb-4 border-bottom border-white pb-3 opacity-75">
                                                     Payment Summary</h5>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span class="fs-5 opacity-75">Total Amount</span>
-                                                    <span class="display-6 fw-bold">$
+                                                    <span class="fs-2 fw-bold">$
                                                         <fmt:formatNumber value="${order.totalAmount}"
                                                             minFractionDigits="2" maxFractionDigits="2"
                                                             groupingUsed="false" />

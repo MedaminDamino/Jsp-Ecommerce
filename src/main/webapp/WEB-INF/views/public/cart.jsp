@@ -135,10 +135,12 @@
                                                                     </td>
                                                                     <td
                                                                         class="py-4 text-end pe-4 fw-black text-primary fs-5">
-                                                                        $${(item.product.hasDiscount ?
+                                                                        <fmt:formatNumber value="${(item.product.hasDiscount ?
                                                                         item.product.discountedPrice :
                                                                         item.product.price) *
-                                                                        item.quantity}
+                                                                        item.quantity}" type="currency"
+                                                                            currencySymbol="$" maxFractionDigits="2"
+                                                                            minFractionDigits="2" />
                                                                     </td>
                                                                 </tr>
                                                             </c:forEach>

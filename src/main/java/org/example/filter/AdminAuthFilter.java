@@ -40,7 +40,7 @@ public class AdminAuthFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             // Redirect to login page
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp?error=AccessDenied");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/auth?error=AccessDenied");
         }
     }
 
