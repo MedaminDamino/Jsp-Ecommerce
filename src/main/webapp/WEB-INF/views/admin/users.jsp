@@ -90,7 +90,9 @@
                                                                     <input type="hidden" name="id" value="${user.id}">
                                                                     <select name="role"
                                                                         class="form-select form-select-sm py-1 border-0 bg-light fw-bold text-secondary shadow-none"
-                                                                        style="width: 130px; font-size: 0.8rem;">
+                                                                        style="width: 130px; font-size: 0.8rem;"
+                                                                        ${user.id==sessionScope.user.id ? 'disabled'
+                                                                        : '' }>
                                                                         <option value="CUSTOMER" ${user.role=='CUSTOMER'
                                                                             ? 'selected' : '' }>CUSTOMER</option>
                                                                         <option value="ADMIN" ${user.role=='ADMIN'
@@ -98,7 +100,9 @@
                                                                     </select>
                                                                     <button type="submit"
                                                                         class="btn btn-sm btn-light border p-1 px-2 text-primary"
-                                                                        data-bs-toggle="tooltip" title="Update Role">
+                                                                        data-bs-toggle="tooltip" title="Update Role"
+                                                                        ${user.id==sessionScope.user.id ? 'disabled'
+                                                                        : '' }>
                                                                         <i class="bi bi-check-lg"></i>
                                                                     </button>
                                                                 </form>

@@ -163,6 +163,42 @@
                   </c:forEach>
                 </div>
 
+                <!-- Pagination -->
+                <c:if test="${totalPages > 1}">
+                  <nav aria-label="Page navigation" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                      <!-- Previous -->
+                      <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                        <a class="page-link rounded-pill px-3 me-2 border-0 shadow-sm ${currentPage == 1 ? 'bg-light text-muted' : ''}"
+                          href="?page=${currentPage - 1}&category=${param.category}&search=${param.search}&sort=${param.sort}"
+                          aria-label="Previous">
+                          <span aria-hidden="true">&laquo; Prev</span>
+                        </a>
+                      </li>
+
+                      <!-- Page Numbers -->
+                      <c:forEach begin="1" end="${totalPages}" var="i">
+                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                          <a class="page-link rounded-circle mx-1 border-0 shadow-sm ${currentPage == i ? 'bg-primary text-white fw-bold' : 'text-dark bg-white'}"
+                            style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
+                            href="?page=${i}&category=${param.category}&search=${param.search}&sort=${param.sort}">
+                            ${i}
+                          </a>
+                        </li>
+                      </c:forEach>
+
+                      <!-- Next -->
+                      <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                        <a class="page-link rounded-pill px-3 ms-2 border-0 shadow-sm ${currentPage == totalPages ? 'bg-light text-muted' : ''}"
+                          href="?page=${currentPage + 1}&category=${param.category}&search=${param.search}&sort=${param.sort}"
+                          aria-label="Next">
+                          <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </c:if>
+
                 <c:if test="${empty products}">
                   <div class="text-center py-5 admin-card reveal mt-4 p-5">
                     <div class="bg-light p-4 rounded-circle d-inline-block mb-4 shadow-sm"

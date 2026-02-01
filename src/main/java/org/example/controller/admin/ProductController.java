@@ -15,13 +15,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@WebServlet(name = "AdminProductServlet", urlPatterns = {"/admin/products"})
+@WebServlet(name = "ProductController", urlPatterns = {"/admin/products"})
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
         maxFileSize = 1024 * 1024 * 10,      // 10 MB
         maxRequestSize = 1024 * 1024 * 100   // 100 MB
 )
-public class AdminProductServlet extends HttpServlet {
+public class ProductController extends HttpServlet {
 
     private ProductService productService;
 

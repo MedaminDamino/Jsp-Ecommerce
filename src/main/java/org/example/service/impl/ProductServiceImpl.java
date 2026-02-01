@@ -17,6 +17,40 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public long getTotalCount(String categoryId, String searchQuery) {
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            return productDAO.countSearch(searchQuery);
+        } else if (categoryId != null && !categoryId.trim().isEmpty()) {
+            try {
+                return productDAO.countByCategory(Integer.parseInt(categoryId));
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        } else {
+            return productDAO.countAll();
+        }
+    }
+
+    @Override
+    public List<Product> getProducts(int page, int pageSize, String sort, String categoryId, String searchQuery) {
+        int offset = (page - 1) * pageSize;
+        if (offset < 0) offset = 0;
+
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            return productDAO.searchByNameSorted(searchQuery, offset, pageSize, sort);
+        } else if (categoryId != null && !categoryId.trim().isEmpty()) {
+             try {
+                int cid = Integer.parseInt(categoryId);
+                return productDAO.findByCategorySorted(cid, offset, pageSize, sort);
+            } catch (NumberFormatException e) {
+                return Collections.emptyList();
+            }
+        } else {
+            return productDAO.findAll(offset, pageSize, sort);
+        }
+    }
+
+    @Override
     public List<Product> getAllProducts() {
         return getAllProducts(null);
     }

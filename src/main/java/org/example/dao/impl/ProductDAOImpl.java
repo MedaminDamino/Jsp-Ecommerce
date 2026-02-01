@@ -12,6 +12,110 @@ import java.util.Map;
 
 public class ProductDAOImpl implements ProductDAO {
 
+    // --- Pagination Implementations ---
+
+    @Override
+    public long countAll() {
+        String sql = "SELECT COUNT(*) FROM products";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return rs.getLong(1);
+        } catch (SQLException e) {
+            System.err.println("Error in countAll: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    @Override
+    public long countByCategory(int categoryId) {
+        String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, categoryId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in countByCategory: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    @Override
+    public long countSearch(String query) {
+        String sql = "SELECT COUNT(*) FROM products WHERE name LIKE ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in countSearch: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Product> findAll(int offset, int limit, String sort) {
+        List<Product> products = new ArrayList<>();
+        String orderBy = getOrderBy(sort);
+        String sql = "SELECT * FROM products" + orderBy + " LIMIT ? OFFSET ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+            stmt.setInt(2, offset);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) products.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in findAll paginated: " + e.getMessage());
+        }
+        enrichWithPromotions(products);
+        return products;
+    }
+
+    @Override
+    public List<Product> findByCategorySorted(int categoryId, int offset, int limit, String sort) {
+        List<Product> products = new ArrayList<>();
+        String orderBy = getOrderBy(sort);
+        String sql = "SELECT * FROM products WHERE category_id = ?" + orderBy + " LIMIT ? OFFSET ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, categoryId);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) products.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in findByCategorySorted paginated: " + e.getMessage());
+        }
+        enrichWithPromotions(products);
+        return products;
+    }
+
+    @Override
+    public List<Product> searchByNameSorted(String query, int offset, int limit, String sort) {
+        List<Product> products = new ArrayList<>();
+        String orderBy = getOrderBy(sort);
+        String sql = "SELECT * FROM products WHERE name LIKE ?" + orderBy + " LIMIT ? OFFSET ?";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + query + "%");
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) products.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in searchByNameSorted paginated: " + e.getMessage());
+        }
+        enrichWithPromotions(products);
+        return products;
+    }
+
     @Override
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();

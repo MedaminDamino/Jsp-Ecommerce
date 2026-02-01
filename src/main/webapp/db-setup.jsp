@@ -47,20 +47,26 @@
                                 + "product_id INT NOT NULL," + "quantity INT NOT NULL,"
                                 + "price DECIMAL(10,2) NOT NULL,"
                                 + "FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,"
-                                + "FOREIGN KEY (product_id) REFERENCES products(id))" ); stmt.addBatch("CREATE TABLE
-                                product_promotions (" + "product_id INT," + "promotion_id INT,"
-                                + "PRIMARY KEY (product_id, promotion_id),"
+                                + "FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE)" );
+                                stmt.addBatch("CREATE TABLE product_promotions (" + "product_id INT,"
+                                + "promotion_id INT," + "PRIMARY KEY (product_id, promotion_id),"
                                 + "FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,"
                                 + "FOREIGN KEY (promotion_id) REFERENCES promotions(id) ON DELETE CASCADE)" ); // 3.
                                 Insert Sample Data stmt.addBatch("INSERT INTO users (email, password, role) VALUES " +
                 " ('admin@test.com', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' , 'ADMIN' ),"
                                 + "('user@test.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'CUSTOMER')"
                                 ); stmt.addBatch("INSERT INTO categories (name) VALUES ('Electronics'), ('Books'),
-                                ('Fashion')"); stmt.addBatch("INSERT INTO products (name, description, price,
-                                category_id, image_url) VALUES " +
-                " ('Smartphone X', 'Latest smartphone with AI features' , 999.99, 1, 'https://placehold.co/400x300' ),"
-                                + "('Laptop Pro', 'High performance laptop', 1499.99, 1, 'https://placehold.co/400x300'),"
-                                + "('Java Programming', 'Master Java in 30 days', 29.99, 2, 'https://placehold.co/400x300')"
+                                ('Fashion'), ('Home & Kitchen'), ('Sports & Outdoors'), ('Beauty & Personal Care')");
+                                stmt.addBatch("INSERT INTO products (name, description, price, category_id, image_url)
+                                VALUES " +
+                " ('Smartphone X', 'Latest smartphone with AI features' , 999.99,
+                                1, 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80'
+                                ),"
+                                + "('Laptop Pro', 'High performance laptop', 1499.99, 1, 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=500&q=80'),"
+                                + "('Java Programming', 'Master Java in 30 days', 29.99, 2, 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=500&q=80'),"
+                                + "('Coffee Maker', 'Programmable coffee maker', 79.99, 4, 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=500&q=80'),"
+                                + "('Yoga Mat', 'Eco-friendly non-slip yoga mat', 29.99, 5, 'https://images.unsplash.com/photo-1592432678016-e910b452f9a9?auto=format&fit=crop&w=500&q=80'),"
+                                + "('Skincare Set', 'Complete daily skincare routine', 45.00, 6, 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=500&q=80')"
                                 ); stmt.addBatch("INSERT INTO promotions (title, description, active, discount_type,
                                 discount_value, end_date) VALUES " +
                 " ('Summer Sale', 'Get 20% off on all items!' , TRUE, 'PERCENTAGE' , 20.00, DATE_ADD(CURRENT_DATE,

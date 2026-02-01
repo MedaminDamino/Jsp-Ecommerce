@@ -215,90 +215,151 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+
+                                                <!-- Pagination Controls -->
+                                                <div class="card-footer bg-white border-0 py-3">
+                                                    <nav aria-label="Product pagination">
+                                                        <ul class="pagination pagination-sm justify-content-end mb-0">
+                                                            <%-- Previous Page --%>
+                                                                <li
+                                                                    class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                                    <a class="page-link border-0 text-muted"
+                                                                        href="?page=${currentPage - 1}" ${currentPage==1
+                                                                        ? 'tabindex="-1" aria-disabled="true"' : '' }>
+                                                                        <i class="bi bi-chevron-left"></i>
+                                                                    </a>
+                                                                </li>
+
+                                                                <%-- Page Numbers --%>
+                                                                    <c:if test="${totalPages > 0}">
+                                                                        <c:forEach begin="1" end="${totalPages}"
+                                                                            var="i">
+                                                                            <c:choose>
+                                                                                <c:when test="${i == currentPage}">
+                                                                                    <li class="page-item active"
+                                                                                        aria-current="page">
+                                                                                        <span
+                                                                                            class="page-link bg-primary border-primary">${i}</span>
+                                                                                    </li>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <li class="page-item">
+                                                                                        <a class="page-link border-0 text-dark"
+                                                                                            href="?page=${i}">${i}</a>
+                                                                                    </li>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:forEach>
+                                                                    </c:if>
+
+                                                                    <%-- Next Page --%>
+                                                                        <li
+                                                                            class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                                            <a class="page-link border-0 text-muted"
+                                                                                href="?page=${currentPage + 1}"
+                                                                                ${currentPage==totalPages
+                                                                                ? 'tabindex="-1" aria-disabled="true"'
+                                                                                : '' }>
+                                                                                <i class="bi bi-chevron-right"></i>
+                                                                            </a>
+                                                                        </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                    </div>
-            </div>
 
-            <!-- Edit Product Modal -->
-            <div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow-lg">
-                        <div class="modal-header bg-primary text-white p-4">
-                            <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Product Details
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body p-4">
-                            <form action="${pageContext.request.contextPath}/admin/products" method="post"
-                                enctype="multipart/form-data">
-                                <input type="hidden" name="action" value="update">
-                                <input type="hidden" name="id" id="edit-id">
-                                <input type="hidden" name="oldImageUrl" id="edit-old-image">
+                            <!-- Edit Product Modal -->
+                            <div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content border-0 shadow-lg">
+                                        <div class="modal-header bg-primary text-white p-4">
+                                            <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit
+                                                Product Details
+                                            </h5>
+                                            <button type="button" class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <form action="${pageContext.request.contextPath}/admin/products"
+                                                method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="action" value="update">
+                                                <input type="hidden" name="id" id="edit-id">
+                                                <input type="hidden" name="oldImageUrl" id="edit-old-image">
 
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold small text-uppercase text-muted">Product
-                                        Name</label>
-                                    <input type="text" name="name" id="edit-name" class="form-control" required>
-                                </div>
+                                                <div class="mb-3">
+                                                    <label
+                                                        class="form-label fw-semibold small text-uppercase text-muted">Product
+                                                        Name</label>
+                                                    <input type="text" name="name" id="edit-name" class="form-control"
+                                                        required>
+                                                </div>
 
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold small text-uppercase text-muted">Price
-                                            ($)</label>
-                                        <input type="number" step="0.01" name="price" id="edit-price"
-                                            class="form-control" required>
+                                                <div class="row g-3 mb-3">
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            class="form-label fw-semibold small text-uppercase text-muted">Price
+                                                            ($)</label>
+                                                        <input type="number" step="0.01" name="price" id="edit-price"
+                                                            class="form-control" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            class="form-label fw-semibold small text-uppercase text-muted">Category</label>
+                                                        <select name="categoryId" id="edit-category" class="form-select"
+                                                            required>
+                                                            <option value="" disabled>Select Category</option>
+                                                            <c:forEach var="cat" items="${categories}">
+                                                                <option value="${cat.id}">${cat.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label
+                                                        class="form-label fw-semibold small text-uppercase text-muted">New
+                                                        Image
+                                                        (Optional)</label>
+                                                    <input type="file" name="imageFile" class="form-control"
+                                                        accept="image/*">
+                                                    <small class="text-muted d-block mt-1">Leave empty to keep current
+                                                        image</small>
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label
+                                                        class="form-label fw-semibold small text-uppercase text-muted">Description
+                                                        (Optional)</label>
+                                                    <textarea name="description" id="edit-description"
+                                                        class="form-control" rows="3"></textarea>
+                                                </div>
+
+                                                <div class="d-grid">
+                                                    <button type="submit" class="btn btn-primary py-2 fw-semibold">Save
+                                                        Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label
-                                            class="form-label fw-semibold small text-uppercase text-muted">Category</label>
-                                        <select name="categoryId" id="edit-category" class="form-select" required>
-                                            <option value="" disabled>Select Category</option>
-                                            <c:forEach var="cat" items="${categories}">
-                                                <option value="${cat.id}">${cat.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold small text-uppercase text-muted">New Image
-                                        (Optional)</label>
-                                    <input type="file" name="imageFile" class="form-control" accept="image/*">
-                                    <small class="text-muted d-block mt-1">Leave empty to keep current image</small>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-semibold small text-uppercase text-muted">Description
-                                        (Optional)</label>
-                                    <textarea name="description" id="edit-description" class="form-control"
-                                        rows="3"></textarea>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary py-2 fw-semibold">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script>
-                function populateEditModal(id, name, price, category, image, description) {
-                    document.getElementById('edit-id').value = id;
-                    document.getElementById('edit-name').value = name;
-                    document.getElementById('edit-price').value = price;
-                    document.getElementById('edit-category').value = category;
-                    document.getElementById('edit-old-image').value = image;
-                    document.getElementById('edit-description').value = description;
-                }
-            </script>
+                            <script
+                                src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                            <script>
+                                function populateEditModal(id, name, price, category, image, description) {
+                                    document.getElementById('edit-id').value = id;
+                                    document.getElementById('edit-name').value = name;
+                                    document.getElementById('edit-price').value = price;
+                                    document.getElementById('edit-category').value = category;
+                                    document.getElementById('edit-old-image').value = image;
+                                    document.getElementById('edit-description').value = description;
+                                }
+                            </script>
         </body>
 
         </html>

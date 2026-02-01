@@ -14,7 +14,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         String fullname = (String) req.getSession().getAttribute("fullname");
         if (fullname == null || fullname.isEmpty()) {
-            ((HttpServletResponse) response).sendRedirect("index.jsp");
+            ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/home");
         } else {
             filterChain.doFilter(request, response);
         }

@@ -4,6 +4,10 @@ import org.example.model.Product;
 import java.util.List;
 
 public interface ProductService {
+    // Pagination
+    long getTotalCount(String categoryId, String searchQuery);
+    List<Product> getProducts(int page, int pageSize, String sort, String categoryId, String searchQuery);
+
     List<Product> getAllProducts();
     List<Product> getAllProducts(String sort);
     List<Product> getProductsByCategory(String categoryId);

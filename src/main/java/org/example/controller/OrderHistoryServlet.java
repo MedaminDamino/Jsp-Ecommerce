@@ -36,6 +36,6 @@ public class OrderHistoryServlet extends HttpServlet {
 
         List<Order> orders = orderService.getUserOrders(user.getId());
         req.setAttribute("orders", orders);
-        req.getRequestDispatcher("/WEB-INF/views/order-history.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/public/order-history.jsp").forward(req, resp);
     }
 }

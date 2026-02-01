@@ -42,7 +42,7 @@ public class CartServlet extends HttpServlet {
 
         req.setAttribute("cartItems", cartItems);
         req.setAttribute("cartTotal", total);
-        req.getRequestDispatcher("cart.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/public/cart.jsp").forward(req, resp);
     }
 
     public static class CartItem {

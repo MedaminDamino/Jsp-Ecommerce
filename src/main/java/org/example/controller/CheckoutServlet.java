@@ -63,7 +63,7 @@ public class CheckoutServlet extends HttpServlet {
 
         req.setAttribute("cartItems", cartItems);
         req.setAttribute("grandTotal", grandTotal);
-        req.getRequestDispatcher("/WEB-INF/views/checkout.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/public/checkout.jsp").forward(req, resp);
     }
 
     @Override

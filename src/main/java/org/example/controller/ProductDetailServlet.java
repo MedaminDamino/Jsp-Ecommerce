@@ -32,7 +32,7 @@ public class ProductDetailServlet extends HttpServlet {
             if (product != null) {
                 req.setAttribute("product", product);
                 req.setAttribute("category", categoryService.getCategoryById(product.getCategoryId()));
-                req.getRequestDispatcher("product-details.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/public/product-details.jsp").forward(req, resp);
                 return;
             }
         }

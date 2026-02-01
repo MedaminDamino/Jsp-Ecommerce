@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminOrderServlet", urlPatterns = {"/admin/orders", "/admin/orders/*"})
-public class AdminOrderServlet extends HttpServlet {
+@WebServlet(name = "OrderController", urlPatterns = {"/admin/orders", "/admin/orders/*"})
+public class OrderController extends HttpServlet {
 
     private OrderService orderService;
     private ProductService productService;

@@ -35,24 +35,31 @@ public class HomeServlet extends HttpServlet {
         String searchQuery = req.getParameter("search");
         String sort = req.getParameter("sort");
 
-        List<Product> products;
-
+        // Pagination
+        int page = 1;
+        int limit = 9;
         try {
-            if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                products = productService.searchProducts(searchQuery, sort);
-            } else if (categoryIdParam != null && !categoryIdParam.isEmpty()) {
-                products = productService.getProductsByCategory(categoryIdParam, sort);
-            } else {
-                products = productService.getAllProducts(sort);
+            String pageParam = req.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
+                page = Integer.parseInt(pageParam);
             }
         } catch (NumberFormatException e) {
-            products = productService.getAllProducts(sort);
+            // ignore
         }
+        if (page < 1) page = 1;
+
+        // Fetch Data
+        long totalItems = productService.getTotalCount(categoryIdParam, searchQuery);
+        List<Product> products = productService.getProducts(page, limit, sort, categoryIdParam, searchQuery);
+        int totalPages = (int) Math.ceil((double) totalItems / limit);
 
         req.setAttribute("products", products);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalItems", totalItems);
         req.setAttribute("categories", categoryService.getAllCategories());
         req.setAttribute("promotions", promotionService.getActivePromotions());
 
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/public/index.jsp").forward(req, resp);
     }
 }

@@ -60,7 +60,7 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-premium rounded-pill px-4">Login</a>
+                        <a href="${pageContext.request.contextPath}/auth" class="btn btn-premium rounded-pill px-4">Login</a>
                     </c:otherwise>
                 </c:choose>
             </div>

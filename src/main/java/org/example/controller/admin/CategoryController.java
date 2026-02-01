@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "AdminCategoryServlet", urlPatterns = {"/admin/categories"})
-public class AdminCategoryServlet extends HttpServlet {
+@WebServlet(name = "CategoryController", urlPatterns = {"/admin/categories"})
+public class CategoryController extends HttpServlet {
 
     private CategoryService categoryService;
 
@@ -23,7 +23,7 @@ public class AdminCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("categories", categoryService.getAllCategories());
-        req.getRequestDispatcher("category-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/admin/category-list.jsp").forward(req, resp);
     }
 
     @Override

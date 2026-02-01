@@ -30,9 +30,11 @@ public class AuthServlet extends HttpServlet {
                 session.invalidate();
             }
             resp.sendRedirect("home");
+        } else if ("register".equals(action)) {
+            req.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(req, resp);
         } else {
             // Default to login page if no action
-            resp.sendRedirect("login.jsp");
+            req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
         }
     }
 
@@ -44,7 +46,7 @@ public class AuthServlet extends HttpServlet {
         } else if ("register".equals(action)) {
             handleRegister(req, resp);
         } else {
-            resp.sendRedirect("login.jsp");
+            req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
         }
     }
 
@@ -64,7 +66,10 @@ public class AuthServlet extends HttpServlet {
                 resp.sendRedirect("home");
             }
         } else {
-            resp.sendRedirect("login.jsp?error=Invalid Credentials");
+            // Keep error in request scope if forwarding, OR pass as param if redirecting?
+            // With forward, we can set attribute.
+            req.setAttribute("error", "Invalid Credentials");
+             req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
         }
     }
 
@@ -76,9 +81,12 @@ public class AuthServlet extends HttpServlet {
         User user = new User(0, email, password, "CUSTOMER"); // ID 0 is ignored on insert
 
         if (userService.register(user)) {
-             resp.sendRedirect("login.jsp?message=Registration successful! Please login.");
+             // Registration success -> Login
+             req.setAttribute("message", "Registration successful! Please login.");
+             req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
         } else {
-             resp.sendRedirect("register.jsp?error=Registration failed. Email might be taken.");
+             req.setAttribute("error", "Registration failed. Email might be taken.");
+             req.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(req, resp);
         }
     }
 }

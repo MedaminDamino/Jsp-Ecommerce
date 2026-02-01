@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminUserServlet", urlPatterns = {"/admin/users"})
-public class AdminUserServlet extends HttpServlet {
+@WebServlet(name = "UserController", urlPatterns = {"/admin/users"})
+public class UserController extends HttpServlet {
 
     private UserService userService;
 

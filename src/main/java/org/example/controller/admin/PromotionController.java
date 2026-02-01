@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(name = "AdminPromotionServlet", urlPatterns = {"/admin/promotions"})
-public class AdminPromotionServlet extends HttpServlet {
+@WebServlet(name = "PromotionController", urlPatterns = {"/admin/promotions"})
+public class PromotionController extends HttpServlet {
 
     private PromotionService promotionService;
     private org.example.service.ProductService productService;
@@ -37,7 +37,7 @@ public class AdminPromotionServlet extends HttpServlet {
 
         req.setAttribute("promotions", promotionService.getAllPromotions());
         req.setAttribute("products", productService.getAllProducts());
-        req.getRequestDispatcher("promotions.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/admin/promotions.jsp").forward(req, resp);
     }
 
     @Override

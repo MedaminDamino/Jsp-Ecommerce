@@ -68,7 +68,7 @@
 
                                 <div class="text-center">
                                     <p class="small text-muted mb-0">Don't have an account? <a
-                                            href="${pageContext.request.contextPath}/register.jsp"
+                                            href="${pageContext.request.contextPath}/auth?action=register"
                                             class="fw-bold text-primary text-decoration-none">Sign Up</a></p>
                                 </div>
                             </form>
